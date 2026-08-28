@@ -1,0 +1,9 @@
+path: /root/2026Summer/Task1/experiments/yolov8n_640x480/normalized_dataset
+train: /root/2026Summer/Task1/experiments/yolov8n_640x480/normalized_dataset/train/images
+val: /root/2026Summer/Task1/experiments/yolov8n_640x480/normalized_dataset/valid/images
+test: /root/2026Summer/Task1/experiments/yolov8n_640x480/normalized_dataset/test/images
+nc: 3
+names:
+- keyboard
+- nongfu_spring
+- phone
