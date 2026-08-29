@@ -1,0 +1,21 @@
+{
+  "train_base_images_before": 428,
+  "resized_images": 596,
+  "box_rows": 1735,
+  "class_1": 326,
+  "class_0": 1154,
+  "aug_blur_created": 428,
+  "aug_blur_images": 428,
+  "aug_lowlight_created": 428,
+  "aug_lowlight_images": 428,
+  "polygon_rows": 245,
+  "class_2": 500,
+  "train_images_after": 1284,
+  "valid_base_images_before": 73,
+  "valid_images_after": 73,
+  "test_base_images_before": 95,
+  "test_images_after": 95,
+  "width": 640,
+  "height": 480,
+  "augment_count": 2
+}

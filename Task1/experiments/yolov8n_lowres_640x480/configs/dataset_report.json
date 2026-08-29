@@ -1,0 +1,9 @@
+{
+  "train_images": 1284,
+  "box_rows": 4608,
+  "class_1": 822,
+  "class_0": 2680,
+  "class_2": 1106,
+  "valid_images": 73,
+  "test_images": 95
+}
