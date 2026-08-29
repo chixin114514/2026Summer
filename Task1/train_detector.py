@@ -567,7 +567,7 @@ def run_training(args: argparse.Namespace, data_yaml: Path, output_root: Path) -
         plots=True,
         verbose=True,
         save=True,
-        save_period=10,
+        save_period=-1,
         rect=False,
         degrees=7.0,
         translate=0.08,
