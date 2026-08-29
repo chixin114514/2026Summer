@@ -1,0 +1,134 @@
+[
+  {
+    "rank": 1,
+    "image": "DJI_20260829155627_0311_D_JPG.rf.rJVtPEvyrfVtMXae1OYW.JPG",
+    "output": "/root/2026Summer/Task1/experiments/yolov8n_XBY_640x480/results/error_examples/01_DJI_20260829155627_0311_D_JPG.rf.rJVtPEvyrfVtMXae1OYW.jpg",
+    "score": 5,
+    "false_positives": 3,
+    "false_negatives": 1,
+    "wrong_class": 0,
+    "ground_truth_count": 3,
+    "prediction_count": 5
+  },
+  {
+    "rank": 2,
+    "image": "old__phone__DJI_20260826132647_0198_D_008_jpg.rf.7LTcmvlYD1Q8qv50oEmC.jpg",
+    "output": "/root/2026Summer/Task1/experiments/yolov8n_XBY_640x480/results/error_examples/02_old__phone__DJI_20260826132647_0198_D_008_jpg.rf.7LTcmvlYD1Q8qv50oEmC.jpg",
+    "score": 4,
+    "false_positives": 0,
+    "false_negatives": 2,
+    "wrong_class": 0,
+    "ground_truth_count": 6,
+    "prediction_count": 4
+  },
+  {
+    "rank": 3,
+    "image": "DJI_20260829155503_0290_D_JPG.rf.390HmVDv9ylorSNwjF2k.JPG",
+    "output": "/root/2026Summer/Task1/experiments/yolov8n_XBY_640x480/results/error_examples/03_DJI_20260829155503_0290_D_JPG.rf.390HmVDv9ylorSNwjF2k.jpg",
+    "score": 3,
+    "false_positives": 1,
+    "false_negatives": 1,
+    "wrong_class": 0,
+    "ground_truth_count": 4,
+    "prediction_count": 4
+  },
+  {
+    "rank": 4,
+    "image": "DJI_20260829155738_0317_D_JPG.rf.5BXDUZDFMGp3bdkpUv0i.JPG",
+    "output": "/root/2026Summer/Task1/experiments/yolov8n_XBY_640x480/results/error_examples/04_DJI_20260829155738_0317_D_JPG.rf.5BXDUZDFMGp3bdkpUv0i.jpg",
+    "score": 3,
+    "false_positives": 3,
+    "false_negatives": 0,
+    "wrong_class": 0,
+    "ground_truth_count": 4,
+    "prediction_count": 7
+  },
+  {
+    "rank": 5,
+    "image": "old__phone__DJI_20260826132502_0193_D_001_jpg.rf.6fFnXr71sZ5CO9WL9W53.jpg",
+    "output": "/root/2026Summer/Task1/experiments/yolov8n_XBY_640x480/results/error_examples/05_old__phone__DJI_20260826132502_0193_D_001_jpg.rf.6fFnXr71sZ5CO9WL9W53.jpg",
+    "score": 3,
+    "false_positives": 3,
+    "false_negatives": 0,
+    "wrong_class": 0,
+    "ground_truth_count": 3,
+    "prediction_count": 6
+  },
+  {
+    "rank": 6,
+    "image": "old__phone__DJI_20260826132502_0193_D_002_jpg.rf.f9Le2XsO2jE9WrmsEEjf.jpg",
+    "output": "/root/2026Summer/Task1/experiments/yolov8n_XBY_640x480/results/error_examples/06_old__phone__DJI_20260826132502_0193_D_002_jpg.rf.f9Le2XsO2jE9WrmsEEjf.jpg",
+    "score": 3,
+    "false_positives": 3,
+    "false_negatives": 0,
+    "wrong_class": 0,
+    "ground_truth_count": 3,
+    "prediction_count": 6
+  },
+  {
+    "rank": 7,
+    "image": "old__phone__DJI_20260826132502_0193_D_007_jpg.rf.b1jaUpEEJMlEyJkoRuGO.jpg",
+    "output": "/root/2026Summer/Task1/experiments/yolov8n_XBY_640x480/results/error_examples/07_old__phone__DJI_20260826132502_0193_D_007_jpg.rf.b1jaUpEEJMlEyJkoRuGO.jpg",
+    "score": 2,
+    "false_positives": 2,
+    "false_negatives": 0,
+    "wrong_class": 0,
+    "ground_truth_count": 4,
+    "prediction_count": 6
+  },
+  {
+    "rank": 8,
+    "image": "old__phone__DJI_20260826132502_0193_D_008_jpg.rf.nN7HUnt7p2mRcfFKPk9i.jpg",
+    "output": "/root/2026Summer/Task1/experiments/yolov8n_XBY_640x480/results/error_examples/08_old__phone__DJI_20260826132502_0193_D_008_jpg.rf.nN7HUnt7p2mRcfFKPk9i.jpg",
+    "score": 2,
+    "false_positives": 2,
+    "false_negatives": 0,
+    "wrong_class": 0,
+    "ground_truth_count": 4,
+    "prediction_count": 6
+  },
+  {
+    "rank": 9,
+    "image": "old__phone__DJI_20260826132523_0195_D_001_jpg.rf.4NQWuIREiKytuvxTWsTC.jpg",
+    "output": "/root/2026Summer/Task1/experiments/yolov8n_XBY_640x480/results/error_examples/09_old__phone__DJI_20260826132523_0195_D_001_jpg.rf.4NQWuIREiKytuvxTWsTC.jpg",
+    "score": 2,
+    "false_positives": 0,
+    "false_negatives": 1,
+    "wrong_class": 0,
+    "ground_truth_count": 4,
+    "prediction_count": 3
+  },
+  {
+    "rank": 10,
+    "image": "old__phone__DJI_20260826132523_0195_D_002_jpg.rf.W9VBVPcE5ROv1hPcSoa0.jpg",
+    "output": "/root/2026Summer/Task1/experiments/yolov8n_XBY_640x480/results/error_examples/10_old__phone__DJI_20260826132523_0195_D_002_jpg.rf.W9VBVPcE5ROv1hPcSoa0.jpg",
+    "score": 2,
+    "false_positives": 0,
+    "false_negatives": 1,
+    "wrong_class": 0,
+    "ground_truth_count": 4,
+    "prediction_count": 3
+  },
+  {
+    "rank": 11,
+    "image": "old__phone__DJI_20260826132523_0195_D_003_jpg.rf.lEacYDgEBi1lHXxv1cTy.jpg",
+    "output": "/root/2026Summer/Task1/experiments/yolov8n_XBY_640x480/results/error_examples/11_old__phone__DJI_20260826132523_0195_D_003_jpg.rf.lEacYDgEBi1lHXxv1cTy.jpg",
+    "score": 2,
+    "false_positives": 0,
+    "false_negatives": 1,
+    "wrong_class": 0,
+    "ground_truth_count": 4,
+    "prediction_count": 3
+  },
+  {
+    "rank": 12,
+    "image": "old__phone__DJI_20260826132523_0195_D_004_jpg.rf.fc5ILUvlgCcj2rRWz30y.jpg",
+    "output": "/root/2026Summer/Task1/experiments/yolov8n_XBY_640x480/results/error_examples/12_old__phone__DJI_20260826132523_0195_D_004_jpg.rf.fc5ILUvlgCcj2rRWz30y.jpg",
+    "score": 2,
+    "false_positives": 0,
+    "false_negatives": 1,
+    "wrong_class": 0,
+    "ground_truth_count": 4,
+    "prediction_count": 3
+  }
+]

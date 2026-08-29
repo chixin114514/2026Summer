@@ -1,0 +1,706 @@
+========================================================================
+Task1 目标检测训练
+数据集：/root/2026Summer/Task1/dataset_XBY
+输出目录：/root/2026Summer/Task1/experiments/yolov8n_XBY_640x480
+[数据] 训练图片：488，验证图片：90，测试图片：104
+[数据] 标准框：2370，多边形转框：1，非法标签行：0
+[数据] 规范化配置：/root/2026Summer/Task1/experiments/yolov8n_XBY_640x480/configs/normalized_data.yaml
+[训练] 模型：yolov8n.pt
+[训练] 输入尺寸：480x640，GPU：0，batch：16
+Ultralytics 8.4.127 🚀 Python-3.10.12 torch-2.5.1+cu124 CUDA:0 (NVIDIA GeForce RTX 4060, 8188MiB)
+[34m[1mengine/trainer: [0magnostic_nms=False, amp=True, angle=1.0, augment=False, auto_augment=randaugment, batch=16, bgr=0.0, box=7.5, cache=False, cfg=None, channels_last=False, classes=None, close_mosaic=10, cls=0.5, cls_pw=0.0, cls_remap=True, compile=False, conf=None, copy_paste=0.0, copy_paste_mode=flip, cos_lr=False, cutmix=0.0, data=/root/2026Summer/Task1/experiments/yolov8n_XBY_640x480/configs/normalized_data.yaml, degrees=7.0, deterministic=True, device=0, dfl=1.5, dgrad=0.5, dis=6.0, distill_model=None, dlam=1.0, dlog=1.0, dnn=False, dropout=0.0, dynamic=False, embed=None, end2end=None, epochs=100, erasing=0.4, exist_ok=True, fliplr=0.5, flipud=0.0, format=torchscript, fraction=1.0, freeze=None, hsv_h=0.015, hsv_s=0.5, hsv_v=0.4, imgsz=[480, 640], iou=0.7, keras=False, kobj=1.0, line_width=None, lr0=0.01, lrf=0.01, mask_ratio=4, max_det=300, mixup=0.0, mode=train, model=yolov8n.pt, momentum=0.937, mosaic=0.5, multi_scale=0.0, name=yolov8n_XBY_640x480, nbs=64, nms=False, opset=None, optimize=False, optimizer=auto, overlap_mask=True, patience=30, perspective=0.0005, plots=True, pose=12.0, pretrained=True, profile=False, project=/root/2026Summer/Task1/experiments, quantize=None, rect=False, resume=False, retina_masks=False, rle=1.0, save=True, save_conf=False, save_crop=False, save_dir=/root/2026Summer/Task1/experiments/yolov8n_XBY_640x480, save_frames=False, save_json=False, save_period=-1, save_txt=False, scale=0.3, seed=42, shear=2.0, show=False, show_boxes=True, show_conf=True, show_labels=True, simplify=True, single_cls=False, source=None, split=val, stream_buffer=False, task=detect, time=None, tracker=tracktrack.yaml, translate=0.08, val=True, verbose=True, vid_stride=1, visualize=False, warmup_bias_lr=0.1, warmup_epochs=3.0, warmup_momentum=0.8, weight_decay=0.0005, workers=4, workspace=None
+Overriding model.yaml nc=80 with nc=3
+
+                   from  n    params  module                                       arguments
+  0                  -1  1       464  ultralytics.nn.modules.conv.Conv             [3, 16, 3, 2]
+  1                  -1  1      4672  ultralytics.nn.modules.conv.Conv             [16, 32, 3, 2]
+  2                  -1  1      7360  ultralytics.nn.modules.block.C2f             [32, 32, 1, True]
+  3                  -1  1     18560  ultralytics.nn.modules.conv.Conv             [32, 64, 3, 2]
+  4                  -1  2     49664  ultralytics.nn.modules.block.C2f             [64, 64, 2, True]
+  5                  -1  1     73984  ultralytics.nn.modules.conv.Conv             [64, 128, 3, 2]
+  6                  -1  2    197632  ultralytics.nn.modules.block.C2f             [128, 128, 2, True]
+  7                  -1  1    295424  ultralytics.nn.modules.conv.Conv             [128, 256, 3, 2]
+  8                  -1  1    460288  ultralytics.nn.modules.block.C2f             [256, 256, 1, True]
+  9                  -1  1    164608  ultralytics.nn.modules.block.SPPF            [256, 256, 5]
+ 10                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, 'nearest']
+ 11             [-1, 6]  1         0  ultralytics.nn.modules.conv.Concat           [1]
+ 12                  -1  1    148224  ultralytics.nn.modules.block.C2f             [384, 128, 1]
+ 13                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, 'nearest']
+ 14             [-1, 4]  1         0  ultralytics.nn.modules.conv.Concat           [1]
+ 15                  -1  1     37248  ultralytics.nn.modules.block.C2f             [192, 64, 1]
+ 16                  -1  1     36992  ultralytics.nn.modules.conv.Conv             [64, 64, 3, 2]
+ 17            [-1, 12]  1         0  ultralytics.nn.modules.conv.Concat           [1]
+ 18                  -1  1    123648  ultralytics.nn.modules.block.C2f             [192, 128, 1]
+ 19                  -1  1    147712  ultralytics.nn.modules.conv.Conv             [128, 128, 3, 2]
+ 20             [-1, 9]  1         0  ultralytics.nn.modules.conv.Concat           [1]
+ 21                  -1  1    493056  ultralytics.nn.modules.block.C2f             [384, 256, 1]
+ 22        [15, 18, 21]  1    751897  ultralytics.nn.modules.head.Detect           [3, 16, None, [64, 128, 256]]
+Model summary: 130 layers, 3,011,433 parameters, 3,011,417 gradients, 8.2 GFLOPs
+
+Remapped 1/3 cls head rows from pretrained weights by class name
+Transferred 322/355 items from pretrained weights
+Freezing layer 'model.22.dfl.conv.weight'
+[34m[1mAMP: [0mrunning Automatic Mixed Precision (AMP) checks...
+[34m[1mAMP: [0mchecks passed ✅
+WARNING ⚠️ updating to 'imgsz=640'. 'train' and 'val' imgsz must be an integer, while 'predict' and 'export' imgsz may be a [h, w] list or an integer, i.e. 'yolo export imgsz=640,480' or 'yolo export imgsz=640'
+[34m[1mtrain: [0mFast image access ✅ (ping: 0.0±0.0 ms, read: 8024.1±718.7 MB/s, size: 2777.6 KB)
+
+[34m[1mtrain: [0mNew cache created: /root/2026Summer/Task1/experiments/yolov8n_XBY_640x480/normalized_dataset/train/labels.cache
+[34m[1mval: [0mFast image access ✅ (ping: 0.0±0.0 ms, read: 3447.6±3202.2 MB/s, size: 2946.4 KB)
+
+[34m[1mval: [0mNew cache created: /root/2026Summer/Task1/experiments/yolov8n_XBY_640x480/normalized_dataset/valid/labels.cache
+[34m[1moptimizer:[0m 'optimizer=auto' found, ignoring 'lr0=0.01' and 'momentum=0.937' and determining best 'optimizer', 'lr0' and 'momentum' automatically...
+[34m[1moptimizer:[0m AdamW(lr=0.001429, momentum=0.9) with parameter groups 57 weight(decay=0.0), 64 weight(decay=0.0005), 63 bias(decay=0.0)
+Plotting labels to /root/2026Summer/Task1/experiments/yolov8n_XBY_640x480/labels.jpg...
+Image sizes 640 train, 640 val
+Using 4 dataloader workers
+Logging results to [1m/root/2026Summer/Task1/experiments/yolov8n_XBY_640x480[0m
+Starting training for 100 epochs...
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.887      0.338      0.473       0.26
+[训练进度] epoch 1/100 mAP50=0.4732 mAP50-95=0.2600
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.932      0.378      0.795      0.474
+[训练进度] epoch 2/100 mAP50=0.7954 mAP50-95=0.4737
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.631      0.576      0.661      0.448
+[训练进度] epoch 3/100 mAP50=0.6612 mAP50-95=0.4476
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.881       0.65      0.796       0.54
+[训练进度] epoch 4/100 mAP50=0.7956 mAP50-95=0.5403
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.811      0.729      0.834      0.535
+[训练进度] epoch 5/100 mAP50=0.8337 mAP50-95=0.5346
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.886      0.931      0.958      0.617
+[训练进度] epoch 6/100 mAP50=0.9581 mAP50-95=0.6166
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.886      0.859      0.926      0.621
+[训练进度] epoch 7/100 mAP50=0.9259 mAP50-95=0.6210
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.893      0.877      0.951      0.667
+[训练进度] epoch 8/100 mAP50=0.9513 mAP50-95=0.6672
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.865      0.874      0.941      0.621
+[训练进度] epoch 9/100 mAP50=0.9410 mAP50-95=0.6215
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.884      0.834      0.933      0.643
+[训练进度] epoch 10/100 mAP50=0.9326 mAP50-95=0.6426
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.851      0.929      0.959      0.646
+[训练进度] epoch 11/100 mAP50=0.9588 mAP50-95=0.6465
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.885      0.908      0.953       0.62
+[训练进度] epoch 12/100 mAP50=0.9527 mAP50-95=0.6196
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.922      0.892      0.962      0.645
+[训练进度] epoch 13/100 mAP50=0.9617 mAP50-95=0.6450
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.897      0.883      0.954      0.664
+[训练进度] epoch 14/100 mAP50=0.9538 mAP50-95=0.6645
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.914      0.887      0.938      0.646
+[训练进度] epoch 15/100 mAP50=0.9385 mAP50-95=0.6462
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347       0.89      0.817      0.949      0.652
+[训练进度] epoch 16/100 mAP50=0.9485 mAP50-95=0.6518
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.828      0.852      0.926      0.621
+[训练进度] epoch 17/100 mAP50=0.9256 mAP50-95=0.6215
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.952      0.863      0.956      0.624
+[训练进度] epoch 18/100 mAP50=0.9563 mAP50-95=0.6238
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.928       0.83      0.925      0.658
+[训练进度] epoch 19/100 mAP50=0.9250 mAP50-95=0.6577
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347       0.92      0.913      0.961      0.685
+[训练进度] epoch 20/100 mAP50=0.9609 mAP50-95=0.6849
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.935      0.906      0.967      0.686
+[训练进度] epoch 21/100 mAP50=0.9667 mAP50-95=0.6861
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.923      0.927      0.969       0.69
+[训练进度] epoch 22/100 mAP50=0.9686 mAP50-95=0.6900
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.949      0.936      0.977      0.681
+[训练进度] epoch 23/100 mAP50=0.9770 mAP50-95=0.6810
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.938      0.906      0.974      0.699
+[训练进度] epoch 24/100 mAP50=0.9740 mAP50-95=0.6993
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.926      0.839      0.953      0.696
+[训练进度] epoch 25/100 mAP50=0.9526 mAP50-95=0.6960
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.909      0.918      0.941      0.685
+[训练进度] epoch 26/100 mAP50=0.9407 mAP50-95=0.6855
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347       0.93      0.941      0.963        0.7
+[训练进度] epoch 27/100 mAP50=0.9626 mAP50-95=0.7001
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.923       0.95      0.972      0.685
+[训练进度] epoch 28/100 mAP50=0.9721 mAP50-95=0.6847
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.919      0.925      0.972      0.692
+[训练进度] epoch 29/100 mAP50=0.9724 mAP50-95=0.6918
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.935       0.91      0.969      0.724
+[训练进度] epoch 30/100 mAP50=0.9692 mAP50-95=0.7242
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.956      0.929      0.973      0.693
+[训练进度] epoch 31/100 mAP50=0.9734 mAP50-95=0.6930
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.919      0.936      0.972      0.687
+[训练进度] epoch 32/100 mAP50=0.9721 mAP50-95=0.6873
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.944      0.955      0.973      0.709
+[训练进度] epoch 33/100 mAP50=0.9727 mAP50-95=0.7093
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.909      0.938      0.966        0.7
+[训练进度] epoch 34/100 mAP50=0.9662 mAP50-95=0.7004
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.927      0.867      0.921      0.667
+[训练进度] epoch 35/100 mAP50=0.9212 mAP50-95=0.6671
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.952      0.917      0.965      0.698
+[训练进度] epoch 36/100 mAP50=0.9654 mAP50-95=0.6978
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.964      0.898      0.983      0.711
+[训练进度] epoch 37/100 mAP50=0.9826 mAP50-95=0.7114
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.952      0.945      0.968      0.716
+[训练进度] epoch 38/100 mAP50=0.9682 mAP50-95=0.7157
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.945      0.876      0.971      0.725
+[训练进度] epoch 39/100 mAP50=0.9713 mAP50-95=0.7252
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.936      0.922      0.941      0.692
+[训练进度] epoch 40/100 mAP50=0.9408 mAP50-95=0.6924
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.942      0.913      0.966        0.7
+[训练进度] epoch 41/100 mAP50=0.9664 mAP50-95=0.7002
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.931      0.932      0.973      0.699
+[训练进度] epoch 42/100 mAP50=0.9735 mAP50-95=0.6987
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.964      0.892       0.97      0.686
+[训练进度] epoch 43/100 mAP50=0.9697 mAP50-95=0.6863
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.893      0.963      0.973      0.667
+[训练进度] epoch 44/100 mAP50=0.9731 mAP50-95=0.6669
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.951      0.897      0.975       0.67
+[训练进度] epoch 45/100 mAP50=0.9749 mAP50-95=0.6698
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.948      0.905      0.958      0.671
+[训练进度] epoch 46/100 mAP50=0.9585 mAP50-95=0.6712
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.939      0.952      0.975      0.678
+[训练进度] epoch 47/100 mAP50=0.9748 mAP50-95=0.6781
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.954      0.893      0.978      0.687
+[训练进度] epoch 48/100 mAP50=0.9782 mAP50-95=0.6872
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.887      0.947      0.963      0.692
+[训练进度] epoch 49/100 mAP50=0.9628 mAP50-95=0.6919
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.947      0.878      0.966      0.698
+[训练进度] epoch 50/100 mAP50=0.9655 mAP50-95=0.6976
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.915      0.961      0.977      0.702
+[训练进度] epoch 51/100 mAP50=0.9775 mAP50-95=0.7017
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.976      0.847      0.972      0.703
+[训练进度] epoch 52/100 mAP50=0.9724 mAP50-95=0.7029
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.963      0.897      0.975      0.714
+[训练进度] epoch 53/100 mAP50=0.9751 mAP50-95=0.7139
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.938      0.923      0.973      0.713
+[训练进度] epoch 54/100 mAP50=0.9735 mAP50-95=0.7132
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.971      0.908      0.971      0.726
+[训练进度] epoch 55/100 mAP50=0.9712 mAP50-95=0.7258
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.889      0.947      0.963      0.679
+[训练进度] epoch 56/100 mAP50=0.9628 mAP50-95=0.6786
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347       0.92      0.961      0.974      0.695
+[训练进度] epoch 57/100 mAP50=0.9742 mAP50-95=0.6952
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.916      0.961      0.981      0.714
+[训练进度] epoch 58/100 mAP50=0.9808 mAP50-95=0.7136
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.952      0.938      0.977      0.727
+[训练进度] epoch 59/100 mAP50=0.9773 mAP50-95=0.7271
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.978      0.914      0.976      0.735
+[训练进度] epoch 60/100 mAP50=0.9762 mAP50-95=0.7345
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.975      0.917      0.974       0.73
+[训练进度] epoch 61/100 mAP50=0.9736 mAP50-95=0.7303
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.956      0.916      0.974      0.728
+[训练进度] epoch 62/100 mAP50=0.9737 mAP50-95=0.7283
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.924      0.927      0.967      0.711
+[训练进度] epoch 63/100 mAP50=0.9671 mAP50-95=0.7106
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.938       0.91       0.96       0.71
+[训练进度] epoch 64/100 mAP50=0.9604 mAP50-95=0.7097
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.937        0.9      0.956      0.701
+[训练进度] epoch 65/100 mAP50=0.9557 mAP50-95=0.7013
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.947      0.953       0.98      0.731
+[训练进度] epoch 66/100 mAP50=0.9797 mAP50-95=0.7314
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.951      0.925      0.978      0.701
+[训练进度] epoch 67/100 mAP50=0.9784 mAP50-95=0.7011
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.971       0.91      0.975      0.698
+[训练进度] epoch 68/100 mAP50=0.9755 mAP50-95=0.6984
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.947      0.892      0.951      0.706
+[训练进度] epoch 69/100 mAP50=0.9506 mAP50-95=0.7062
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.957      0.923      0.969      0.739
+[训练进度] epoch 70/100 mAP50=0.9686 mAP50-95=0.7390
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.972      0.916      0.974      0.734
+[训练进度] epoch 71/100 mAP50=0.9744 mAP50-95=0.7338
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.967       0.96       0.98      0.742
+[训练进度] epoch 72/100 mAP50=0.9795 mAP50-95=0.7416
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.966      0.901      0.975      0.735
+[训练进度] epoch 73/100 mAP50=0.9753 mAP50-95=0.7355
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.931      0.938      0.961      0.729
+[训练进度] epoch 74/100 mAP50=0.9607 mAP50-95=0.7294
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.964      0.915      0.978      0.757
+[训练进度] epoch 75/100 mAP50=0.9780 mAP50-95=0.7566
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.961      0.907      0.966      0.737
+[训练进度] epoch 76/100 mAP50=0.9664 mAP50-95=0.7373
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.957      0.894      0.972      0.739
+[训练进度] epoch 77/100 mAP50=0.9722 mAP50-95=0.7388
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347       0.95      0.906      0.974      0.735
+[训练进度] epoch 78/100 mAP50=0.9738 mAP50-95=0.7352
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.956      0.921      0.979      0.739
+[训练进度] epoch 79/100 mAP50=0.9786 mAP50-95=0.7385
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.962      0.902      0.974      0.725
+[训练进度] epoch 80/100 mAP50=0.9740 mAP50-95=0.7250
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.963      0.896      0.978      0.727
+[训练进度] epoch 81/100 mAP50=0.9785 mAP50-95=0.7271
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.955       0.92      0.976       0.74
+[训练进度] epoch 82/100 mAP50=0.9765 mAP50-95=0.7399
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.961      0.909      0.977      0.744
+[训练进度] epoch 83/100 mAP50=0.9771 mAP50-95=0.7444
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.955      0.905       0.98      0.729
+[训练进度] epoch 84/100 mAP50=0.9796 mAP50-95=0.7294
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.954      0.904      0.977      0.745
+[训练进度] epoch 85/100 mAP50=0.9771 mAP50-95=0.7446
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347       0.95      0.905      0.971      0.731
+[训练进度] epoch 86/100 mAP50=0.9708 mAP50-95=0.7306
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.934      0.907      0.977      0.741
+[训练进度] epoch 87/100 mAP50=0.9768 mAP50-95=0.7407
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.947      0.896      0.976      0.731
+[训练进度] epoch 88/100 mAP50=0.9763 mAP50-95=0.7307
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.948      0.904      0.974      0.741
+[训练进度] epoch 89/100 mAP50=0.9742 mAP50-95=0.7407
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.956      0.906      0.979      0.738
+[训练进度] epoch 90/100 mAP50=0.9791 mAP50-95=0.7380
+Closing dataloader mosaic
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.955      0.919      0.981      0.743
+[训练进度] epoch 91/100 mAP50=0.9807 mAP50-95=0.7432
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.933      0.946      0.982      0.744
+[训练进度] epoch 92/100 mAP50=0.9820 mAP50-95=0.7442
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.944      0.947      0.982      0.747
+[训练进度] epoch 93/100 mAP50=0.9822 mAP50-95=0.7467
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.954      0.941      0.981      0.753
+[训练进度] epoch 94/100 mAP50=0.9814 mAP50-95=0.7533
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.958      0.923       0.98      0.751
+[训练进度] epoch 95/100 mAP50=0.9799 mAP50-95=0.7513
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.959      0.925      0.981      0.755
+[训练进度] epoch 96/100 mAP50=0.9814 mAP50-95=0.7546
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.959      0.927      0.982      0.758
+[训练进度] epoch 97/100 mAP50=0.9815 mAP50-95=0.7577
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.962      0.921      0.981      0.746
+[训练进度] epoch 98/100 mAP50=0.9813 mAP50-95=0.7461
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.963      0.915      0.982      0.758
+[训练进度] epoch 99/100 mAP50=0.9819 mAP50-95=0.7580
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+                   all         90        347      0.963      0.915      0.982      0.762
+[训练进度] epoch 100/100 mAP50=0.9818 mAP50-95=0.7623
+
+100 epochs completed in 0.368 hours.
+Optimizer stripped from /root/2026Summer/Task1/experiments/yolov8n_XBY_640x480/weights/last.pt, 6.2MB
+Optimizer stripped from /root/2026Summer/Task1/experiments/yolov8n_XBY_640x480/weights/best.pt, 6.2MB
+
+Validating /root/2026Summer/Task1/experiments/yolov8n_XBY_640x480/weights/best.pt...
+Ultralytics 8.4.127 🚀 Python-3.10.12 torch-2.5.1+cu124 CUDA:0 (NVIDIA GeForce RTX 4060, 8188MiB)
+Model summary (fused): 73 layers, 3,006,233 parameters, 0 gradients, 8.1 GFLOPs
+
+                   all         90        347      0.963      0.915      0.982      0.764
+              keyboard         86        149      0.938       0.94      0.972      0.812
+         nongfu_spring         72         72      0.984      0.849      0.982      0.671
+                 phone         76        126      0.968      0.957      0.992      0.809
+Speed: 0.2ms preprocess, 1.5ms inference, 0.0ms loss, 3.2ms postprocess per image
+Results saved to [1m/root/2026Summer/Task1/experiments/yolov8n_XBY_640x480[0m
+[训练进度] epoch 101/100 mAP50=0.9818 mAP50-95=0.7642
+[结果] loss 曲线已保存：/root/2026Summer/Task1/experiments/yolov8n_XBY_640x480/results/loss_curves.png
+[结果] 最佳模型：/root/2026Summer/Task1/experiments/yolov8n_XBY_640x480/weights/best.pt
+[评估] 开始在 test 集上评估……
+WARNING ⚠️ updating to 'imgsz=640'. 'train' and 'val' imgsz must be an integer, while 'predict' and 'export' imgsz may be a [h, w] list or an integer, i.e. 'yolo export imgsz=640,480' or 'yolo export imgsz=640'
+Ultralytics 8.4.127 🚀 Python-3.10.12 torch-2.5.1+cu124 CUDA:0 (NVIDIA GeForce RTX 4060, 8188MiB)
+Model summary (fused): 73 layers, 3,006,233 parameters, 0 gradients, 8.1 GFLOPs
+[34m[1mval: [0mFast image access ✅ (ping: 0.0±0.0 ms, read: 5899.3±1679.5 MB/s, size: 2780.0 KB)
+
+[34m[1mval: [0mNew cache created: /root/2026Summer/Task1/experiments/yolov8n_XBY_640x480/normalized_dataset/test/labels.cache
+
+                   all        104        440      0.959      0.953      0.975      0.752
+              keyboard        102        223       0.94      0.985       0.99      0.797
+         nongfu_spring         59         59      0.967          1      0.994      0.728
+                 phone         87        158      0.969      0.873      0.941      0.733
+Speed: 0.9ms preprocess, 3.4ms inference, 0.0ms loss, 3.8ms postprocess per image
+Results saved to [1m/root/2026Summer/Task1/experiments/yolov8n_XBY_640x480/test_eval[0m
+[结果] 测试指标已保存：/root/2026Summer/Task1/experiments/yolov8n_XBY_640x480/results/test_metrics.json
+[错误样例进度] 1/104
+[错误样例进度] 10/104
+[错误样例进度] 20/104
+[错误样例进度] 30/104
+[错误样例进度] 40/104
+[错误样例进度] 50/104
+[错误样例进度] 60/104
+[错误样例进度] 70/104
+[错误样例进度] 80/104
+[错误样例进度] 90/104
+[错误样例进度] 100/104
+[错误样例进度] 104/104
+[结果] 已保存 12 张典型错误图片：/root/2026Summer/Task1/experiments/yolov8n_XBY_640x480/results/error_examples
+[完成] 训练、测试评估、loss 曲线和典型错误图片均已生成。
