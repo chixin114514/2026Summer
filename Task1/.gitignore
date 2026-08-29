@@ -1,5 +1,6 @@
 # Task1 的运行缓存和模型权重不纳入 Git；训练指标、曲线、日志和错误样例仍保留。
 dataset_nongfu_checked/
+dataset_XBY/
 *.pt
 __pycache__/
 experiments/**/normalized_dataset/
