@@ -31,7 +31,11 @@ import yaml
 
 DEFAULT_DATASET = Path("/mnt/dataset/dataset_nongfu_checked")
 DEFAULT_OUTPUT = Path("experiments/yolov8n_640x480")
-CLASS_NAMES = ["keyboard", "nongfu_spring", "phone"]
+# 类别顺序必须与 dataset_XBY 重映射后的 YOLO class ID 一致。
+CLASS_NAMES = ["phone", "keyboard", "bottle"]
+# Ultralytics 的全局颜色表使用 RGB；训练生成的 labels/train_batch/val_batch
+# 可视化会按 class ID 使用这三个颜色：蓝、绿、红。
+ANNOTATION_COLORS_RGB = [(0, 0, 255), (0, 255, 0), (255, 0, 0)]
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
 
 
@@ -541,6 +545,11 @@ def save_error_examples(
 
 def run_training(args: argparse.Namespace, data_yaml: Path, output_root: Path) -> Path:
     from ultralytics import YOLO
+    from ultralytics.utils.plotting import colors as annotation_colors
+
+    # 仅修改本次进程中的 Ultralytics 可视化调色板，不改变错误样例的
+    # FP/FN/分类错误颜色。颜色表的存储顺序是 RGB。
+    annotation_colors.palette[: len(ANNOTATION_COLORS_RGB)] = ANNOTATION_COLORS_RGB
 
     model = YOLO(args.model)
     model.add_callback("on_fit_epoch_end", print_epoch_progress)
