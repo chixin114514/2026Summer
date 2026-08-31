@@ -14,13 +14,6 @@ Task1 使用轻量级 YOLOv8n 训练三类桌面物体检测模型，并在 Jets
 | 1 | `keyboard` | 绿色 |
 | 2 | `bottle` | 红色 |
 
-当前完整且与部署类别一致的实验为：
-
-```text
-experiments/yolov8n_XBY_phone_keyboard_bottle_640x480_batch16/
-```
-
-已提交的测试报告包含 104 张图片和 440 个目标实例。数据集和模型权重按项目规则不进入 Git，因此全新克隆仓库后仍需单独准备数据集和 `best.pt`。
 
 ## 目录结构
 
@@ -33,21 +26,16 @@ Task1/
 ├── preprocess_lowres_dataset.py
 ├── xby.py
 └── experiments/
-    ├── yolov8n_640x480/                         # 历史基线
-    ├── yolov8n_lowres_640x480/                  # 历史低清实验
-    ├── yolov8n_XBY_640x480/                     # 历史类别布局实验
-    ├── yolov8n_XBY_phone_keyboard_bottle_640x480/        # 第 1 轮后中断
-    ├── yolov8n_XBY_phone_keyboard_bottle_640x480_batch8/ # 第 2 轮后中断
-    └── yolov8n_XBY_phone_keyboard_bottle_640x480_batch16/# 完整 100 轮实验
+    └── <run-name>/
 ```
 
 `train_detector.py` 负责标签检查与规范化、YOLOv8n 训练、测试集评估、loss 曲线和典型错误样例生成。`preprocess_lowres_dataset.py` 是可选的可写数据集离线预处理工具。`xby.py` 是 Jetson/ROS2 摄像头实时运行程序。
 
 ## 环境要求
 
-### 已复现实验的训练环境
+### 训练环境
 
-提交的日志记录了以下可运行环境：
+项目开发与测试使用了以下环境：
 
 - Ubuntu，Python 3.10.12
 - Ultralytics 8.4.127
@@ -130,7 +118,6 @@ XBY 标签必须事先符合当前部署 ID：
 
 训练程序本身**不会**执行语义类别 ID 重映射，只会规范化框的几何格式。请使用已经处理好的 `dataset_XBY`，或在训练前先完成标签重映射。无参数运行时的数据集默认值仍指向旧 Nongfu 路径，因此训练当前三类模型时必须显式传入 `--dataset`。
 
-`Task1/dataset_XBY`、`Task1/dataset_nongfu_checked`、实验中的规范化工作数据集、缓存以及 `.pt` 权重均被 Git 忽略。
 
 ## 检查数据集
 
@@ -153,7 +140,7 @@ experiments/xby_dataset_check/configs/normalized_data.yaml
 experiments/xby_dataset_check/logs/train.log
 ```
 
-当前保存的 XBY 数据报告包含 488 张训练图、90 张验证图、104 张测试图、2,370 行标准框和 1 行多边形标签。
+开始训练前，请检查报告中的样本数量及被跳过标签的警告信息。
 
 ## 可选低清预处理
 
@@ -211,8 +198,8 @@ experiments/<run-name>/
 │   ├── normalized_data.yaml
 │   └── train_config.json
 ├── logs/train.log
-├── normalized_dataset/       # 自动生成，Git 忽略
-├── weights/                  # 自动生成，Git 忽略
+├── normalized_dataset/       # 自动生成的工作数据集
+├── weights/                  # 训练得到的模型权重
 │   ├── best.pt
 │   └── last.pt
 ├── results.csv
@@ -225,31 +212,10 @@ experiments/<run-name>/
     └── error_examples/
 ```
 
-## 已保存实验结果
-
-当前类别完整实验为 `yolov8n_XBY_phone_keyboard_bottle_640x480_batch16`。
-
-| 范围 | 图片数 | 实例数 | Precision | Recall | mAP50 | mAP50–95 |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| 全部 | 104 | 440 | 0.963 | 0.919 | 0.937 | 0.729 |
-| Phone | 87 | 158 | 0.985 | 0.845 | 0.879 | 0.670 |
-| Keyboard | 102 | 223 | 0.964 | 0.964 | 0.983 | 0.791 |
-| Bottle | 59 | 59 | 0.940 | 0.949 | 0.948 | 0.726 |
-
-这些是离线测试集目标检测指标，不等同于任务要求的 20 个实物人工识别正确率。日志中的 3.7 ms/图推理时间来自 RTX 4060，也不能作为 Jetson FPS 证明。
-
-实验状态：
-
-| 实验 | 状态 | 用途 |
-| --- | --- | --- |
-| `..._batch16` | 完成 100 轮及测试集评估 | 当前参考实验 |
-| `..._640x480` | 第 1 轮后停止 | 不作为最终模型 |
-| `..._batch8` | 第 2 轮后停止 | 不作为最终模型 |
-| `yolov8n_XBY_640x480` | 旧命名/类别布局完整实验 | 仅用于历史比较 |
 
 ## 在 Jetson 上通过 ROS2 运行
 
-需将完整实验的权重单独复制到 Jetson，因为权重不存入 Git。运行程序默认模型路径为 `/home/nvidia/best_gjs_1.pt`，但建议显式指定：
+通过 `--model` 指定训练好的权重。运行程序带有默认模型路径，但建议显式指定：
 
 ```bash
 cd /path/to/2026Summer/Task1
@@ -316,13 +282,13 @@ python xby.py \
   --record-dir ./recordings
 ```
 
-输出文件名为 `yolo_record_YYYYMMDD_HHMMSS.mp4`。当前忽略规则不会自动忽略录像；需要提交的录像应移动到对应实验结果目录后再纳入 Git。
+输出文件名为 `yolo_record_YYYYMMDD_HHMMSS.mp4`。
 
 ## 验收复核
 
 任务要求：不少于两类、20 个实物识别正确率不低于 80%、Jetson 不低于 5 FPS、保存测试结果和典型错误案例。
 
-仓库已经提供三类模型配置、离线指标、图表和典型错误样例。以下目标机实测证据仍需在 Jetson 上记录：
+提交前，请在目标 Jetson 上记录以下实测证据：
 
 1. 测试 20 个实物并记录正确识别数量；
 2. 从画面或 ROS2 消息记录持续 FPS；
@@ -336,12 +302,8 @@ python xby.py \
 - **无法打开 `/dev/videoN`：** 使用 `ls /dev/video*` 或 `v4l2-ctl --list-devices` 查看设备，并调整 `--camera`。
 - **无法导入 `rclpy` 或 `std_msgs`：** source 正确的 ROS2 环境，并使用带 `--system-site-packages` 的虚拟环境。
 - **FP16/CUDA 错误：** 安装与 JetPack 兼容的 PyTorch；CPU 模式传入 `--device cpu --no-half`。
-- **模型类别警告：** 权重使用了不同类别顺序，应改用与当前部署一致的 batch-16 权重。
+- **模型类别警告：** 权重使用了不同类别顺序，应使用按 `phone`、`keyboard`、`bottle` 顺序训练的权重。
 - **SSH 下没有窗口：** `xby.py` 始终调用 `cv2.imshow`，需使用图形会话/X 转发，或修改脚本支持无界面模式。
-- **克隆后没有 `best.pt`：** 权重被 Git 忽略，需单独复制或重新训练。
+- **找不到 `best.pt`：** 请提供兼容的训练权重，或使用上面的命令重新训练。
 - **训练结果混合：** 不要复用旧实验目录，应设置新的 `--output`。
 - **标签含义异常：** 确认 XBY 标签已经重映射为 0/1/2 = phone/keyboard/bottle。
-
-## 产物与 Git 规则
-
-代码、配置、日志、指标、图表、预测结果、错误样例和文档应纳入 Git。数据集、规范化数据缓存、`.pt` 模型权重、Python 缓存及任何 `AGENTS.md` 文件不得提交。

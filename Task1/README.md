@@ -14,13 +14,6 @@ The current deployment class contract is:
 | 1 | `keyboard` | green |
 | 2 | `bottle` | red |
 
-The complete deployment-aligned experiment is:
-
-```text
-experiments/yolov8n_XBY_phone_keyboard_bottle_640x480_batch16/
-```
-
-Its committed test report covers 104 images and 440 object instances. Model weights and datasets are intentionally excluded from Git, so a fresh clone needs the dataset and `best.pt` supplied separately.
 
 ## Repository layout
 
@@ -33,21 +26,16 @@ Task1/
 ├── preprocess_lowres_dataset.py
 ├── xby.py
 └── experiments/
-    ├── yolov8n_640x480/                         # historical baseline
-    ├── yolov8n_lowres_640x480/                  # historical low-resolution run
-    ├── yolov8n_XBY_640x480/                     # historical class layout
-    ├── yolov8n_XBY_phone_keyboard_bottle_640x480/        # interrupted after epoch 1
-    ├── yolov8n_XBY_phone_keyboard_bottle_640x480_batch8/ # interrupted after epoch 2
-    └── yolov8n_XBY_phone_keyboard_bottle_640x480_batch16/# complete 100-epoch run
+    └── <run-name>/
 ```
 
 `train_detector.py` validates and normalizes labels, trains YOLOv8n, evaluates the test split, plots loss curves, and saves representative errors. `preprocess_lowres_dataset.py` is an optional in-place preprocessing utility for a writable dataset copy. `xby.py` is the Jetson/ROS2 camera runtime.
 
 ## Environment
 
-### Reproduced training environment
+### Training environment
 
-The committed logs record this working environment:
+The project was developed and tested with:
 
 - Ubuntu with Python 3.10.12
 - Ultralytics 8.4.127
@@ -130,7 +118,6 @@ map: old 0 -> 1, old 1 -> 2, old 2 -> 0
 
 The trainer does **not** perform this semantic ID remapping. It only normalizes geometry. Use the prepared `dataset_XBY` or remap labels before training. The no-argument dataset default still points to the older Nongfu path, so always pass `--dataset` explicitly for the current three-class model.
 
-Datasets under `Task1/dataset_XBY`, datasets under `Task1/dataset_nongfu_checked`, normalized working datasets, caches, and `.pt` weights are ignored by Git.
 
 ## Validate the dataset
 
@@ -153,7 +140,7 @@ experiments/xby_dataset_check/configs/normalized_data.yaml
 experiments/xby_dataset_check/logs/train.log
 ```
 
-The current saved XBY dataset report contains 488 training images, 90 validation images, 104 test images, 2,370 box rows, and one polygon row.
+Review the counts and any skipped-label warnings in the report before starting training.
 
 ## Optional low-resolution preprocessing
 
@@ -211,8 +198,8 @@ experiments/<run-name>/
 │   ├── normalized_data.yaml
 │   └── train_config.json
 ├── logs/train.log
-├── normalized_dataset/       # generated, ignored by Git
-├── weights/                  # generated, ignored by Git
+├── normalized_dataset/       # generated working dataset
+├── weights/                  # trained model weights
 │   ├── best.pt
 │   └── last.pt
 ├── results.csv
@@ -225,31 +212,10 @@ experiments/<run-name>/
     └── error_examples/
 ```
 
-## Saved results
-
-The complete current-class run is `yolov8n_XBY_phone_keyboard_bottle_640x480_batch16`.
-
-| Scope | Images | Instances | Precision | Recall | mAP50 | mAP50–95 |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 104 | 440 | 0.963 | 0.919 | 0.937 | 0.729 |
-| Phone | 87 | 158 | 0.985 | 0.845 | 0.879 | 0.670 |
-| Keyboard | 102 | 223 | 0.964 | 0.964 | 0.983 | 0.791 |
-| Bottle | 59 | 59 | 0.940 | 0.949 | 0.948 | 0.726 |
-
-These are offline test-set detection metrics, not the assignment's manual 20-object recognition accuracy. The saved 3.7 ms/image inference figure was measured on an RTX 4060 and is not a Jetson FPS benchmark.
-
-Run status:
-
-| Run | Status | Use |
-| --- | --- | --- |
-| `..._batch16` | 100 epochs plus test evaluation | current reference |
-| `..._640x480` | stopped after epoch 1 | do not use as final model |
-| `..._batch8` | stopped after epoch 2 | do not use as final model |
-| `yolov8n_XBY_640x480` | completed historical naming/class layout | historical comparison only |
 
 ## Deploy on Jetson with ROS2
 
-Copy the completed run's weight to the Jetson separately. It is not stored in Git. The runtime defaults to `/home/nvidia/best_gjs_1.pt`, but an explicit path is safer:
+Provide a trained weight through `--model`. The runtime has a default path, but an explicit path is safer:
 
 ```bash
 cd /path/to/2026Summer/Task1
@@ -316,13 +282,13 @@ python xby.py \
   --record-dir ./recordings
 ```
 
-The output name is `yolo_record_YYYYMMDD_HHMMSS.mp4`. Recordings are not currently ignored automatically; move intended deliverables into an experiment result directory before committing them.
+The output name is `yolo_record_YYYYMMDD_HHMMSS.mp4`.
 
 ## Acceptance verification
 
 The assignment requires at least two classes, at least 80% correct recognition over 20 tested objects, at least 5 FPS on Jetson, saved test results, and representative errors.
 
-The repository already provides three classes, offline metrics, plots, and representative error images. The following live evidence still needs to be recorded on the target Jetson:
+Before submission, collect the following evidence on the target Jetson:
 
 1. test 20 physical objects and record the number correctly recognized;
 2. record sustained FPS from the on-screen value or ROS2 messages;
@@ -336,12 +302,8 @@ Do not use desktop RTX 4060 timing or offline mAP as a substitute for these two 
 - **`Unable to open /dev/videoN`:** list devices with `ls /dev/video*` or `v4l2-ctl --list-devices`, then change `--camera`.
 - **`rclpy` or `std_msgs` cannot be imported:** source the correct ROS2 setup script and use a virtual environment created with `--system-site-packages`.
 - **FP16/CUDA failure:** use a JetPack-compatible PyTorch build; for CPU, pass `--device cpu --no-half`.
-- **Model-class warning:** the weight was trained with a different class order. Use the deployment-aligned batch-16 weight.
+- **Model-class warning:** the weight was trained with a different class order. Use a weight trained for `phone`, `keyboard`, and `bottle` in that order.
 - **No display over SSH:** `xby.py` always calls `cv2.imshow`; run with a graphical session/X forwarding or adapt the script for headless use.
-- **Missing `best.pt` after cloning:** weights are ignored by Git and must be copied or retrained.
+- **Missing `best.pt`:** provide a compatible trained weight or train one with the command above.
 - **Training output mixes runs:** choose a new `--output` directory instead of reusing an old experiment.
 - **Unexpected labels:** confirm that XBY labels are already remapped to IDs 0/1/2 = phone/keyboard/bottle.
-
-## Artifact and Git policy
-
-Commit source code, configuration, logs, metrics, plots, predictions, error examples, and documentation. Do not commit datasets, normalized dataset caches, `.pt` model weights, Python caches, or any `AGENTS.md` file.
