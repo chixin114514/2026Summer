@@ -1,0 +1,10 @@
+{
+  "train_images": 488,
+  "box_rows": 2370,
+  "class_1": 1162,
+  "class_0": 733,
+  "class_2": 476,
+  "polygon_rows": 1,
+  "valid_images": 90,
+  "test_images": 104
+}

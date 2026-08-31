@@ -1,0 +1,23 @@
+{
+  "dataset": "/root/2026Summer/Task1/dataset_XBY",
+  "output": "/root/2026Summer/Task1/experiments/yolov8n_XBY_phone_keyboard_bottle_640x480",
+  "model": "yolov8n.pt",
+  "epochs": 100,
+  "batch": 16,
+  "workers": 4,
+  "device": "0",
+  "seed": 42,
+  "max_error_images": 12,
+  "conf": 0.25,
+  "check_only": false,
+  "normalized_data_yaml": "/root/2026Summer/Task1/experiments/yolov8n_XBY_phone_keyboard_bottle_640x480/configs/normalized_data.yaml",
+  "image_size": [
+    480,
+    640
+  ],
+  "classes": [
+    "phone",
+    "keyboard",
+    "bottle"
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "dataset": "/root/2026Summer/Task1/dataset_XBY",
+  "old_names": [
+    "keyboard",
+    "nongfu_spring",
+    "phone"
+  ],
+  "new_names": [
+    "phone",
+    "keyboard",
+    "bottle"
+  ],
+  "class_id_mapping": {
+    "0": 1,
+    "1": 2,
+    "2": 0
+  },
+  "splits": {
+    "train": {
+      "label_files": 488,
+      "rows": 1584,
+      "class_counts_before": {
+        "0": 790,
+        "1": 345,
+        "2": 449
+      },
+      "class_counts_after": {
+        "0": 449,
+        "1": 790,
+        "2": 345
+      },
+      "changed_rows": 1584
+    },
+    "valid": {
+      "label_files": 90,
+      "rows": 347,
+      "class_counts_before": {
+        "0": 149,
+        "1": 72,
+        "2": 126
+      },
+      "class_counts_after": {
+        "0": 126,
+        "1": 149,
+        "2": 72
+      },
+      "changed_rows": 347
+    },
+    "test": {
+      "label_files": 104,
+      "rows": 440,
+      "class_counts_before": {
+        "0": 223,
+        "1": 59,
+        "2": 158
+      },
+      "class_counts_after": {
+        "0": 158,
+        "1": 223,
+        "2": 59
+      },
+      "changed_rows": 440
+    }
+  }
+}
